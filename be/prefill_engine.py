@@ -63,6 +63,8 @@ Return ONLY a valid JSON object — no markdown, no explanation, no code fences.
   "source_summary": "1-2 sentences describing what you found and from which sources"
 }}
 
+where "is_gpai" refers to general-purpose AI.
+
 ## Allowed values
 
 capabilities (only use these exact strings):
