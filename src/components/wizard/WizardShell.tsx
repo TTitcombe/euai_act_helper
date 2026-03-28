@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { AssessmentDraft, DeploymentStage } from "@/types/assessment";
 import { buildFinalAssessment } from "@/lib/classify";
+import { detectCapabilities, detectDomain } from "@/lib/detect";
 import ProgressBar from "./ProgressBar";
 import StepNavigation from "./StepNavigation";
 import Step1Company from "@/components/steps/Step1Company";
@@ -66,6 +67,7 @@ export default function WizardShell() {
   const [deploymentStage, setDeploymentStage] = useState<DeploymentStage | undefined>();
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [direction, setDirection] = useState<"forward" | "back">("forward");
+  const [aiDescriptionPrefilled, setAIDescriptionPrefilled] = useState(false);
 
   function updateCompany(update: Partial<AssessmentDraft["company"]>) {
     setDraft((d) => ({ ...d, company: { ...d.company, ...update } }));
@@ -87,6 +89,24 @@ export default function WizardShell() {
       return;
     }
     setErrors({});
+
+    // When leaving Step 1, use company description to pre-fill AI system fields
+    if (step === 1) {
+      const companyText = draft.company.description ?? "";
+      setDraft((d) => {
+        const needsPrefill = !d.ai_system.description?.trim();
+        const description = needsPrefill ? companyText : d.ai_system.description!;
+        const detected = detectCapabilities(description);
+        const merged = Array.from(new Set([...(d.ai_system.capabilities ?? []), ...detected]));
+        const domain = d.deployment.domain ?? detectDomain(companyText) ?? undefined;
+        if (needsPrefill) setAIDescriptionPrefilled(true);
+        return {
+          ...d,
+          ai_system: { ...d.ai_system, description, capabilities: merged },
+          deployment: { ...d.deployment, domain },
+        };
+      });
+    }
 
     if (step === TOTAL_STEPS) {
       const assessment = buildFinalAssessment(draft);
@@ -133,7 +153,7 @@ export default function WizardShell() {
               <Step2Role data={draft.deployment} onChange={updateDeployment} errors={errors} />
             )}
             {step === 3 && (
-              <Step3AIDescription data={draft.ai_system} onChange={updateAISystem} errors={errors} />
+              <Step3AIDescription data={draft.ai_system} onChange={updateAISystem} errors={errors} prefilled={aiDescriptionPrefilled} />
             )}
             {step === 4 && (
               <Step4Domain data={draft.deployment} onChange={updateDeployment} errors={errors} />

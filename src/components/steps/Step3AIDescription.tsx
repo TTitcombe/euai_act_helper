@@ -5,9 +5,10 @@ import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Info } from "lucide-react";
+import { Info, Sparkles } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { EUAIActAssessmentInput, AICapability } from "@/types/assessment";
+import { detectCapabilities } from "@/lib/detect";
 
 type AISystemData = Partial<EUAIActAssessmentInput["ai_system"]>;
 
@@ -15,81 +16,32 @@ interface Props {
   data: AISystemData;
   onChange: (update: AISystemData) => void;
   errors: Record<string, string>;
+  prefilled?: boolean;
 }
 
-const CAPABILITY_OPTIONS: { value: AICapability; label: string; keywords: string[] }[] = [
-  {
-    value: "natural_language_generation",
-    label: "Generates text or code",
-    keywords: ["chat", "gpt", "language", "text", "write", "draft", "summarise", "summarize", "nlp", "llm", "content"],
-  },
-  {
-    value: "image_video_generation",
-    label: "Creates images, video or audio",
-    keywords: ["image", "video", "audio", "generate", "stable diffusion", "midjourney", "dall-e", "synthetic", "visual"],
-  },
-  {
-    value: "decision_making",
-    label: "Makes or suggests decisions",
-    keywords: ["decision", "approve", "reject", "automate", "workflow", "triage", "flag", "action"],
-  },
-  {
-    value: "scoring_ranking",
-    label: "Scores, ranks or rates",
-    keywords: ["score", "rank", "rate", "cv", "resume", "candidate", "credit", "risk", "priorit"],
-  },
-  {
-    value: "biometric_recognition",
-    label: "Recognises faces, voices or identities",
-    keywords: ["face", "facial", "biometric", "fingerprint", "voice", "recognition", "identity", "authenticate"],
-  },
-  {
-    value: "emotion_detection",
-    label: "Detects emotions or mental states",
-    keywords: ["emotion", "sentiment", "mood", "stress", "mental", "feeling", "affect"],
-  },
-  {
-    value: "classification",
-    label: "Classifies or categorises",
-    keywords: ["classif", "categor", "label", "tag", "sort", "filter", "moderate"],
-  },
-  {
-    value: "recommendation",
-    label: "Recommends content or products",
-    keywords: ["recommend", "suggest", "personalise", "personalize", "feed", "curate"],
-  },
-  {
-    value: "prediction",
-    label: "Predicts future outcomes",
-    keywords: ["predict", "forecast", "churn", "fraud", "anomaly", "detect"],
-  },
-  {
-    value: "translation",
-    label: "Translates languages",
-    keywords: ["translat", "language", "multilingual"],
-  },
+const CAPABILITY_OPTIONS: { value: AICapability; label: string }[] = [
+  { value: "natural_language_generation", label: "Generates text or code" },
+  { value: "image_video_generation", label: "Creates images, video or audio" },
+  { value: "decision_making", label: "Makes or suggests decisions" },
+  { value: "scoring_ranking", label: "Scores, ranks or rates" },
+  { value: "biometric_recognition", label: "Recognises faces, voices or identities" },
+  { value: "emotion_detection", label: "Detects emotions or mental states" },
+  { value: "classification", label: "Classifies or categorises" },
+  { value: "recommendation", label: "Recommends content or products" },
+  { value: "prediction", label: "Predicts future outcomes" },
+  { value: "translation", label: "Translates languages" },
 ];
 
-function detectCapabilities(description: string): AICapability[] {
-  const lower = description.toLowerCase();
-  return CAPABILITY_OPTIONS.filter((opt) =>
-    opt.keywords.some((kw) => lower.includes(kw))
-  ).map((opt) => opt.value);
-}
-
-export default function Step3AIDescription({ data, onChange, errors }: Props) {
+export default function Step3AIDescription({ data, onChange, errors, prefilled }: Props) {
   const capabilities = data.capabilities ?? [];
 
-  // Auto-tag capabilities from description
+  // Re-run auto-tagging whenever description changes — merge with manually selected
   useEffect(() => {
     if (!data.description) return;
     const detected = detectCapabilities(data.description);
-    if (detected.length > 0) {
-      // Merge detected with any manually selected ones
-      const merged = Array.from(new Set([...(data.capabilities ?? []), ...detected]));
-      if (merged.length !== (data.capabilities ?? []).length) {
-        onChange({ capabilities: merged });
-      }
+    const merged = Array.from(new Set([...(data.capabilities ?? []), ...detected]));
+    if (merged.length !== (data.capabilities ?? []).length) {
+      onChange({ capabilities: merged });
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data.description]);
@@ -109,6 +61,15 @@ export default function Step3AIDescription({ data, onChange, errors }: Props) {
           Tell us about the AI product or feature you want assessed.
         </p>
       </div>
+
+      {prefilled && (
+        <div className="flex items-center gap-2 bg-blue-50 border border-blue-200 rounded-lg px-3 py-2">
+          <Sparkles className="h-4 w-4 text-blue-500 flex-shrink-0" />
+          <p className="text-sm text-blue-700">
+            Pre-filled from your company description — edit or expand as needed.
+          </p>
+        </div>
+      )}
 
       <div className="space-y-2">
         <Label className="text-sm font-medium text-slate-700">
