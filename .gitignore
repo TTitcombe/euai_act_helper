@@ -1,49 +1,40 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# ─── Frontend (fe/) ───────────────────────────────────────────────────────────
+fe/node_modules
+fe/.next/
+fe/out/
+fe/build
+fe/*.tsbuildinfo
+fe/next-env.d.ts
+fe/.pnp
+fe/.env
+fe/.pnp.*
+fe/.yarn/*
+!fe/.yarn/patches
+!fe/.yarn/plugins
+!fe/.yarn/releases
+!fe/.yarn/versions
 
-# dependencies
-/node_modules
-/.pnp
-.pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/versions
+# ─── Backend (be/) ────────────────────────────────────────────────────────────
+be/.venv/
+be/__pycache__/
+be/*.pyc
+be/*.pyo
+be/.env
 
-# testing
-/coverage
-
-# next.js
-/.next/
-/out/
-
-# production
-/build
-
-# misc
+# ─── Root ─────────────────────────────────────────────────────────────────────
 .DS_Store
 *.pem
+.env*
+.vercel
 
-# debug
+# debug logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
-
-# vercel
-.vercel
-
-# typescript
-*.tsbuildinfo
-next-env.d.ts
-
-.env
-__pycache__/
-*.pyc
-.DS_Store
+# legacy (pre-split)
+/node_modules
 eu_ai_act_helper_env/
 eu-ai-act-output-plan-v2.md
 playground.py

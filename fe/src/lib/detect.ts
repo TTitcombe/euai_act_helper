@@ -1,4 +1,4 @@
-import { AICapability, Domain } from "@/types/assessment";
+import { AICapability, Domain } from "../types/assessment";
 
 // ─── Capability detection ────────────────────────────────────────────────────
 

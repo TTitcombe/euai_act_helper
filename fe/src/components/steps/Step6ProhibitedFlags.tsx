@@ -1,9 +1,9 @@
 "use client";
 
-import { cn } from "@/lib/utils";
-import { Info, AlertTriangle } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { EUAIActAssessmentInput, ProhibitedFlag } from "@/types/assessment";
+import { AlertTriangle, Info } from "lucide-react";
+import { cn } from "../../lib/utils";
+import { EUAIActAssessmentInput, ProhibitedFlag } from "../../types/assessment";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 type RiskFlagData = Partial<EUAIActAssessmentInput["risk_flags"]>;
 
@@ -63,7 +63,11 @@ const FLAGS: {
   },
 ];
 
-export default function Step6ProhibitedFlags({ data, onChange, errors }: Props) {
+export default function Step6ProhibitedFlags({
+  data,
+  onChange,
+  errors,
+}: Props) {
   const prohibitedFlags = data.prohibited_flags ?? [];
 
   // Track per-question answers (yes/no/unsure) locally via flags list
@@ -76,7 +80,9 @@ export default function Step6ProhibitedFlags({ data, onChange, errors }: Props) 
   function setAnswer(key: ProhibitedFlag, answer: "yes" | "no" | "unsure") {
     let next: ProhibitedFlag[];
     if (answer === "yes") {
-      next = prohibitedFlags.includes(key) ? prohibitedFlags : [...prohibitedFlags, key];
+      next = prohibitedFlags.includes(key)
+        ? prohibitedFlags
+        : [...prohibitedFlags, key];
     } else {
       next = prohibitedFlags.filter((f) => f !== key);
     }
@@ -88,9 +94,12 @@ export default function Step6ProhibitedFlags({ data, onChange, errors }: Props) 
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold text-slate-900">A few more questions</h2>
+        <h2 className="text-2xl font-bold text-slate-900">
+          A few more questions
+        </h2>
         <p className="mt-1 text-slate-500">
-          These help us give you a complete picture of your position under the EU AI Act.
+          These help us give you a complete picture of your position under the
+          EU AI Act.
         </p>
       </div>
 
@@ -100,7 +109,9 @@ export default function Step6ProhibitedFlags({ data, onChange, errors }: Props) 
           <div>
             <p className="text-sm font-medium text-amber-800">Heads up</p>
             <p className="text-sm text-amber-700 mt-0.5">
-              One or more of your answers may indicate AI use that is potentially prohibited under the EU AI Act. This will be flagged in your full assessment — we recommend seeking legal advice.
+              One or more of your answers may indicate AI use that is
+              potentially prohibited under the EU AI Act. This will be flagged
+              in your full assessment — we recommend seeking legal advice.
             </p>
           </div>
         </div>
@@ -121,7 +132,9 @@ export default function Step6ProhibitedFlags({ data, onChange, errors }: Props) 
                     <Info className="h-4 w-4" />
                   </TooltipTrigger>
                   <TooltipContent side="left" className="max-w-xs">
-                    <p className="text-xs font-medium mb-1 text-blue-300">{flag.article}</p>
+                    <p className="text-xs font-medium mb-1 text-blue-300">
+                      {flag.article}
+                    </p>
                     <p className="text-xs">{flag.tooltip}</p>
                   </TooltipContent>
                 </Tooltip>
@@ -138,7 +151,7 @@ export default function Step6ProhibitedFlags({ data, onChange, errors }: Props) 
                         ? opt === "yes"
                           ? "border-amber-500 bg-amber-50 text-amber-700 font-medium"
                           : "border-blue-600 bg-blue-50 text-blue-700 font-medium"
-                        : "border-slate-200 text-slate-500 hover:border-slate-300"
+                        : "border-slate-200 text-slate-500 hover:border-slate-300",
                     )}
                   >
                     {opt === "yes" ? "Yes" : opt === "no" ? "No" : "Not sure"}

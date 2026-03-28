@@ -1,9 +1,12 @@
 "use client";
 
-import { cn } from "@/lib/utils";
-import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
-import { EUAIActAssessmentInput, HighRiskIndicator } from "@/types/assessment";
+import { cn } from "../../lib/utils";
+import {
+  EUAIActAssessmentInput,
+  HighRiskIndicator,
+} from "../../types/assessment";
+import { Checkbox } from "../ui/checkbox";
+import { Label } from "../ui/label";
 
 type DeploymentData = Partial<EUAIActAssessmentInput["deployment"]>;
 type RiskFlagData = Partial<EUAIActAssessmentInput["risk_flags"]>;
@@ -19,14 +22,33 @@ interface Props {
   errors: Record<string, string>;
 }
 
-const END_USER_OPTIONS: { value: EUAIActAssessmentInput["deployment"]["end_users"]; label: string; sub: string }[] = [
-  { value: "businesses", label: "Businesses", sub: "B2B — other companies are your customers" },
-  { value: "consumers", label: "Consumers", sub: "B2C — individual members of the public" },
-  { value: "public_authorities", label: "Public authorities", sub: "Government bodies, law enforcement, regulators" },
+const END_USER_OPTIONS: {
+  value: EUAIActAssessmentInput["deployment"]["end_users"];
+  label: string;
+  sub: string;
+}[] = [
+  {
+    value: "businesses",
+    label: "Businesses",
+    sub: "B2B — other companies are your customers",
+  },
+  {
+    value: "consumers",
+    label: "Consumers",
+    sub: "B2C — individual members of the public",
+  },
+  {
+    value: "public_authorities",
+    label: "Public authorities",
+    sub: "Government bodies, law enforcement, regulators",
+  },
   { value: "mixed", label: "Mixed", sub: "A combination of the above" },
 ];
 
-const AFFECTED_PERSONS_OPTIONS: { value: EUAIActAssessmentInput["deployment"]["affected_persons"]; label: string }[] = [
+const AFFECTED_PERSONS_OPTIONS: {
+  value: EUAIActAssessmentInput["deployment"]["affected_persons"];
+  label: string;
+}[] = [
   { value: "none", label: "None — internal tooling only" },
   { value: "<1k", label: "Fewer than 1,000 people" },
   { value: "1k-100k", label: "1,000 to 100,000 people" },
@@ -34,20 +56,57 @@ const AFFECTED_PERSONS_OPTIONS: { value: EUAIActAssessmentInput["deployment"]["a
   { value: "1m+", label: "Over 1 million people" },
 ];
 
-const OVERSIGHT_OPTIONS: { value: EUAIActAssessmentInput["ai_system"]["human_oversight"]; label: string; sub: string }[] = [
-  { value: "full", label: "Full review", sub: "A human always reviews and approves before any action is taken" },
-  { value: "partial", label: "Partial oversight", sub: "A human can override but may not always do so" },
-  { value: "none", label: "Fully automated", sub: "Decisions are made and acted on without human review" },
+const OVERSIGHT_OPTIONS: {
+  value: EUAIActAssessmentInput["ai_system"]["human_oversight"];
+  label: string;
+  sub: string;
+}[] = [
+  {
+    value: "full",
+    label: "Full review",
+    sub: "A human always reviews and approves before any action is taken",
+  },
+  {
+    value: "partial",
+    label: "Partial oversight",
+    sub: "A human can override but may not always do so",
+  },
+  {
+    value: "none",
+    label: "Fully automated",
+    sub: "Decisions are made and acted on without human review",
+  },
 ];
 
 const DECISION_TYPES: { value: HighRiskIndicator; label: string }[] = [
-  { value: "makes_consequential_decisions", label: "Hiring, promotion, or firing decisions" },
-  { value: "affects_access_to_services", label: "Access to credit, loans, or insurance" },
-  { value: "used_by_authorities", label: "Access to healthcare or social benefits" },
-  { value: "monitors_workers", label: "Employee monitoring or performance scoring" },
-  { value: "used_in_education_assessment", label: "Educational grading or progression" },
-  { value: "processes_biometric_data", label: "Criminal risk scoring or profiling" },
-  { value: "operates_critical_infrastructure", label: "Operates safety-critical infrastructure" },
+  {
+    value: "makes_consequential_decisions",
+    label: "Hiring, promotion, or firing decisions",
+  },
+  {
+    value: "affects_access_to_services",
+    label: "Access to credit, loans, or insurance",
+  },
+  {
+    value: "used_by_authorities",
+    label: "Access to healthcare or social benefits",
+  },
+  {
+    value: "monitors_workers",
+    label: "Employee monitoring or performance scoring",
+  },
+  {
+    value: "used_in_education_assessment",
+    label: "Educational grading or progression",
+  },
+  {
+    value: "processes_biometric_data",
+    label: "Criminal risk scoring or profiling",
+  },
+  {
+    value: "operates_critical_infrastructure",
+    label: "Operates safety-critical infrastructure",
+  },
 ];
 
 export default function Step5Impact({
@@ -72,14 +131,18 @@ export default function Step5Impact({
   return (
     <div className="space-y-8">
       <div>
-        <h2 className="text-2xl font-bold text-slate-900">Who is affected and how?</h2>
+        <h2 className="text-2xl font-bold text-slate-900">
+          Who is affected and how?
+        </h2>
         <p className="mt-1 text-slate-500">
           Help us understand the impact your AI system has on people.
         </p>
       </div>
 
       <div className="space-y-3">
-        <Label className="text-sm font-medium text-slate-700">Who are your end users?</Label>
+        <Label className="text-sm font-medium text-slate-700">
+          Who are your end users?
+        </Label>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           {END_USER_OPTIONS.map((opt) => (
             <button
@@ -90,23 +153,31 @@ export default function Step5Impact({
                 "border-2 rounded-lg p-3 text-left cursor-pointer transition-all",
                 deployment.end_users === opt.value
                   ? "border-blue-600 bg-blue-50"
-                  : "border-slate-200 hover:border-slate-300 bg-white"
+                  : "border-slate-200 hover:border-slate-300 bg-white",
               )}
             >
               <div className="flex items-start gap-3">
-                <div className={cn(
-                  "mt-0.5 h-4 w-4 rounded-full border-2 flex-shrink-0",
-                  deployment.end_users === opt.value ? "border-blue-600 bg-blue-600" : "border-slate-300"
-                )} />
+                <div
+                  className={cn(
+                    "mt-0.5 h-4 w-4 rounded-full border-2 flex-shrink-0",
+                    deployment.end_users === opt.value
+                      ? "border-blue-600 bg-blue-600"
+                      : "border-slate-300",
+                  )}
+                />
                 <div>
-                  <p className="text-sm font-medium text-slate-900">{opt.label}</p>
+                  <p className="text-sm font-medium text-slate-900">
+                    {opt.label}
+                  </p>
                   <p className="text-xs text-slate-500">{opt.sub}</p>
                 </div>
               </div>
             </button>
           ))}
         </div>
-        {errors.end_users && <p className="text-xs text-red-500">{errors.end_users}</p>}
+        {errors.end_users && (
+          <p className="text-xs text-red-500">{errors.end_users}</p>
+        )}
       </div>
 
       <div className="space-y-3">
@@ -118,18 +189,24 @@ export default function Step5Impact({
             <button
               key={opt.value}
               type="button"
-              onClick={() => onDeploymentChange({ affected_persons: opt.value })}
+              onClick={() =>
+                onDeploymentChange({ affected_persons: opt.value })
+              }
               className={cn(
                 "w-full border-2 rounded-lg px-4 py-3 text-left cursor-pointer transition-all flex items-center gap-3",
                 deployment.affected_persons === opt.value
                   ? "border-blue-600 bg-blue-50"
-                  : "border-slate-200 hover:border-slate-300 bg-white"
+                  : "border-slate-200 hover:border-slate-300 bg-white",
               )}
             >
-              <div className={cn(
-                "h-4 w-4 rounded-full border-2 flex-shrink-0",
-                deployment.affected_persons === opt.value ? "border-blue-600 bg-blue-600" : "border-slate-300"
-              )} />
+              <div
+                className={cn(
+                  "h-4 w-4 rounded-full border-2 flex-shrink-0",
+                  deployment.affected_persons === opt.value
+                    ? "border-blue-600 bg-blue-600"
+                    : "border-slate-300",
+                )}
+              />
               <span className="text-sm text-slate-700">{opt.label}</span>
             </button>
           ))}
@@ -148,12 +225,14 @@ export default function Step5Impact({
             <button
               key={String(opt.value)}
               type="button"
-              onClick={() => onRiskFlagsChange({ consequential_decisions: opt.value })}
+              onClick={() =>
+                onRiskFlagsChange({ consequential_decisions: opt.value })
+              }
               className={cn(
                 "border-2 rounded-lg px-6 py-2.5 text-sm font-medium transition-all",
                 consequential === opt.value
                   ? "border-blue-600 bg-blue-50 text-blue-700"
-                  : "border-slate-200 bg-white text-slate-600 hover:border-slate-300"
+                  : "border-slate-200 bg-white text-slate-600 hover:border-slate-300",
               )}
             >
               {opt.label}
@@ -169,7 +248,10 @@ export default function Step5Impact({
             </p>
             <div className="space-y-2">
               {DECISION_TYPES.map((dt) => (
-                <label key={dt.value} className="flex items-center gap-3 cursor-pointer">
+                <label
+                  key={dt.value}
+                  className="flex items-center gap-3 cursor-pointer"
+                >
                   <Checkbox
                     checked={highRiskIndicators.includes(dt.value)}
                     onCheckedChange={() => toggleIndicator(dt.value)}
@@ -191,21 +273,32 @@ export default function Step5Impact({
             <button
               key={opt.value}
               type="button"
-              onClick={() => onAISystemChange({ human_oversight: opt.value, automated_decision_making: opt.value === "none" })}
+              onClick={() =>
+                onAISystemChange({
+                  human_oversight: opt.value,
+                  automated_decision_making: opt.value === "none",
+                })
+              }
               className={cn(
                 "w-full border-2 rounded-lg p-3 text-left cursor-pointer transition-all",
                 aiSystem.human_oversight === opt.value
                   ? "border-blue-600 bg-blue-50"
-                  : "border-slate-200 hover:border-slate-300 bg-white"
+                  : "border-slate-200 hover:border-slate-300 bg-white",
               )}
             >
               <div className="flex items-start gap-3">
-                <div className={cn(
-                  "mt-0.5 h-4 w-4 rounded-full border-2 flex-shrink-0",
-                  aiSystem.human_oversight === opt.value ? "border-blue-600 bg-blue-600" : "border-slate-300"
-                )} />
+                <div
+                  className={cn(
+                    "mt-0.5 h-4 w-4 rounded-full border-2 flex-shrink-0",
+                    aiSystem.human_oversight === opt.value
+                      ? "border-blue-600 bg-blue-600"
+                      : "border-slate-300",
+                  )}
+                />
                 <div>
-                  <p className="text-sm font-medium text-slate-900">{opt.label}</p>
+                  <p className="text-sm font-medium text-slate-900">
+                    {opt.label}
+                  </p>
                   <p className="text-xs text-slate-500">{opt.sub}</p>
                 </div>
               </div>
@@ -215,13 +308,25 @@ export default function Step5Impact({
       </div>
 
       <div className="space-y-3">
-        <Label className="text-sm font-medium text-slate-700">Additional context</Label>
+        <Label className="text-sm font-medium text-slate-700">
+          Additional context
+        </Label>
         <div className="space-y-2">
           {[
-            { key: "vulnerable_populations" as const, label: "Involves children, elderly, or other vulnerable groups" },
-            { key: "transparency_obligations" as const, label: "Involves AI-generated content or a chatbot users interact with directly" },
+            {
+              key: "vulnerable_populations" as const,
+              label: "Involves children, elderly, or other vulnerable groups",
+            },
+            {
+              key: "transparency_obligations" as const,
+              label:
+                "Involves AI-generated content or a chatbot users interact with directly",
+            },
           ].map((item) => (
-            <label key={item.key} className="flex items-center gap-3 cursor-pointer">
+            <label
+              key={item.key}
+              className="flex items-center gap-3 cursor-pointer"
+            >
               <Checkbox
                 checked={riskFlags[item.key] ?? false}
                 onCheckedChange={(checked) =>

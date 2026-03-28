@@ -1,14 +1,29 @@
 "use client";
 
-import { cn } from "@/lib/utils";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Badge } from "@/components/ui/badge";
 import {
-  Fingerprint, Zap, GraduationCap, Briefcase, CreditCard,
-  Heart, Shield, Globe, Scale, Car, Building2, Palette, HelpCircle,
+  Briefcase,
+  Building2,
+  Car,
+  CreditCard,
+  Fingerprint,
+  Globe,
+  GraduationCap,
+  Heart,
+  HelpCircle,
+  Palette,
+  Scale,
+  Shield,
+  Zap,
 } from "lucide-react";
-import { EUAIActAssessmentInput, Domain, ANNEX_III_DOMAINS } from "@/types/assessment";
+import { cn } from "../../lib/utils";
+import {
+  ANNEX_III_DOMAINS,
+  Domain,
+  EUAIActAssessmentInput,
+} from "../../types/assessment";
+import { Badge } from "../ui/badge";
+import { Label } from "../ui/label";
+import { Textarea } from "../ui/textarea";
 
 type DeploymentData = Partial<EUAIActAssessmentInput["deployment"]>;
 
@@ -30,63 +45,72 @@ const DOMAIN_OPTIONS: {
     label: "Biometrics & Identity",
     description: "Face recognition, fingerprinting, voice ID",
     icon: Fingerprint,
-    contextNote: "Biometric identification systems are listed as high-risk in Annex III. Real-time biometric surveillance in public spaces may be prohibited.",
+    contextNote:
+      "Biometric identification systems are listed as high-risk in Annex III. Real-time biometric surveillance in public spaces may be prohibited.",
   },
   {
     value: "critical_infrastructure",
     label: "Critical Infrastructure",
     description: "Energy, water, transport, digital networks",
     icon: Zap,
-    contextNote: "AI used in critical infrastructure safety components is high-risk under Annex III.",
+    contextNote:
+      "AI used in critical infrastructure safety components is high-risk under Annex III.",
   },
   {
     value: "education",
     label: "Education & Training",
     description: "Learning platforms, admissions, grading",
     icon: GraduationCap,
-    contextNote: "AI that determines access to education or assesses students is high-risk under Annex III.",
+    contextNote:
+      "AI that determines access to education or assesses students is high-risk under Annex III.",
   },
   {
     value: "employment",
     label: "Employment & HR",
     description: "Recruitment, performance, workforce management",
     icon: Briefcase,
-    contextNote: "HR and recruitment AI is listed as high-risk in Annex III when used for hiring, promotion, or performance monitoring.",
+    contextNote:
+      "HR and recruitment AI is listed as high-risk in Annex III when used for hiring, promotion, or performance monitoring.",
   },
   {
     value: "essential_services",
     label: "Financial & Essential Services",
     description: "Credit, insurance, housing, benefits",
     icon: CreditCard,
-    contextNote: "AI used for creditworthiness assessment or insurance pricing affecting individuals is high-risk under Annex III.",
+    contextNote:
+      "AI used for creditworthiness assessment or insurance pricing affecting individuals is high-risk under Annex III.",
   },
   {
     value: "healthcare",
     label: "Healthcare & Wellness",
     description: "Diagnostics, treatment, patient management",
     icon: Heart,
-    contextNote: "Medical AI devices may fall under both the EU AI Act and the Medical Device Regulation.",
+    contextNote:
+      "Medical AI devices may fall under both the EU AI Act and the Medical Device Regulation.",
   },
   {
     value: "law_enforcement",
     label: "Law Enforcement",
     description: "Policing, crime prediction, evidence analysis",
     icon: Shield,
-    contextNote: "Law enforcement AI is high-risk under Annex III. Predictive policing based on individual profiling may be prohibited.",
+    contextNote:
+      "Law enforcement AI is high-risk under Annex III. Predictive policing based on individual profiling may be prohibited.",
   },
   {
     value: "migration_asylum",
     label: "Migration & Immigration",
     description: "Border control, visa assessment, asylum",
     icon: Globe,
-    contextNote: "AI used in migration management and asylum processing is high-risk under Annex III.",
+    contextNote:
+      "AI used in migration management and asylum processing is high-risk under Annex III.",
   },
   {
     value: "justice_democracy",
     label: "Justice & Democracy",
     description: "Courts, electoral processes, legal decisions",
     icon: Scale,
-    contextNote: "AI assisting judicial decisions or influencing elections is high-risk under Annex III.",
+    contextNote:
+      "AI assisting judicial decisions or influencing elections is high-risk under Annex III.",
   },
   {
     value: "transportation",
@@ -116,14 +140,19 @@ const DOMAIN_OPTIONS: {
 
 export default function Step4Domain({ data, onChange, errors }: Props) {
   const selectedDomain = DOMAIN_OPTIONS.find((d) => d.value === data.domain);
-  const isHighRisk = data.domain ? ANNEX_III_DOMAINS.includes(data.domain) : false;
+  const isHighRisk = data.domain
+    ? ANNEX_III_DOMAINS.includes(data.domain)
+    : false;
 
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold text-slate-900">What domain does your AI operate in?</h2>
+        <h2 className="text-2xl font-bold text-slate-900">
+          What domain does your AI operate in?
+        </h2>
         <p className="mt-1 text-slate-500">
-          The EU AI Act places different obligations depending on where AI is used.
+          The EU AI Act places different obligations depending on where AI is
+          used.
         </p>
       </div>
 
@@ -141,7 +170,7 @@ export default function Step4Domain({ data, onChange, errors }: Props) {
                 "border-2 rounded-lg p-3 text-left cursor-pointer transition-all relative",
                 selected
                   ? "border-blue-600 bg-blue-50"
-                  : "border-slate-200 hover:border-slate-300 bg-white"
+                  : "border-slate-200 hover:border-slate-300 bg-white",
               )}
             >
               {annex && (
@@ -149,11 +178,23 @@ export default function Step4Domain({ data, onChange, errors }: Props) {
                   High Risk
                 </span>
               )}
-              <Icon className={cn("h-5 w-5 mb-2", selected ? "text-blue-600" : "text-slate-400")} />
-              <p className={cn("text-sm font-medium", selected ? "text-blue-900" : "text-slate-800")}>
+              <Icon
+                className={cn(
+                  "h-5 w-5 mb-2",
+                  selected ? "text-blue-600" : "text-slate-400",
+                )}
+              />
+              <p
+                className={cn(
+                  "text-sm font-medium",
+                  selected ? "text-blue-900" : "text-slate-800",
+                )}
+              >
                 {opt.label}
               </p>
-              <p className="text-xs text-slate-500 mt-0.5 leading-tight">{opt.description}</p>
+              <p className="text-xs text-slate-500 mt-0.5 leading-tight">
+                {opt.description}
+              </p>
             </button>
           );
         })}
@@ -166,7 +207,7 @@ export default function Step4Domain({ data, onChange, errors }: Props) {
             "rounded-lg p-4 border text-sm",
             isHighRisk
               ? "bg-amber-50 border-amber-200 text-amber-800"
-              : "bg-blue-50 border-blue-200 text-blue-800"
+              : "bg-blue-50 border-blue-200 text-blue-800",
           )}
         >
           <div className="flex items-start gap-2">
@@ -175,7 +216,7 @@ export default function Step4Domain({ data, onChange, errors }: Props) {
                 "text-xs flex-shrink-0 mt-0.5",
                 isHighRisk
                   ? "bg-amber-100 text-amber-700 border-amber-300"
-                  : "bg-blue-100 text-blue-700 border-blue-300"
+                  : "bg-blue-100 text-blue-700 border-blue-300",
               )}
               variant="outline"
             >
