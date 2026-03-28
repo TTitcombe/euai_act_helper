@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { AssessmentDraft, DeploymentStage } from "@/types/assessment";
 import { buildFinalAssessment } from "@/lib/classify";
@@ -68,6 +68,22 @@ export default function WizardShell() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [direction, setDirection] = useState<"forward" | "back">("forward");
   const [aiDescriptionPrefilled, setAIDescriptionPrefilled] = useState(false);
+  const [prefillConfidence, setPrefillConfidence] = useState<Record<string, boolean>>({});
+
+  // Load pre-fill data from the landing page URL fetch
+  useEffect(() => {
+    const stored = sessionStorage.getItem("euai_prefill");
+    if (!stored) return;
+    try {
+      const { draft: prefilled, confidence } = JSON.parse(stored);
+      setDraft(prefilled);
+      setPrefillConfidence(confidence ?? {});
+      setAIDescriptionPrefilled(true);
+      sessionStorage.removeItem("euai_prefill");
+    } catch {
+      // ignore malformed data
+    }
+  }, []);
 
   function updateCompany(update: Partial<AssessmentDraft["company"]>) {
     setDraft((d) => ({ ...d, company: { ...d.company, ...update } }));
@@ -90,8 +106,9 @@ export default function WizardShell() {
     }
     setErrors({});
 
-    // When leaving Step 1, use company description to pre-fill AI system fields
-    if (step === 1) {
+    // When leaving Step 1, use company description to pre-fill AI system + domain
+    // (only if not already pre-filled from the URL scan)
+    if (step === 1 && !prefillConfidence.description) {
       const companyText = draft.company.description ?? "";
       setDraft((d) => {
         const needsPrefill = !d.ai_system.description?.trim();
