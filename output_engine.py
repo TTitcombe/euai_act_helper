@@ -84,14 +84,29 @@ def build_gpai_prompt(result: dict) -> str:
 
 
 def call_claude(prompt: str, model: str = "claude-sonnet-4-20250514") -> str:
-    """Make a Claude API call and return the response text."""
+    """Make a Claude API call with web search enabled."""
     client = Anthropic()
+
+    enhanced_prompt = (
+        prompt
+        + "\n\nIMPORTANT: Use your web search capability to look up the specific "
+        "articles and provisions of the EU AI Act (Regulation (EU) 2024/1689) "
+        "that apply to this system. Cite specific article numbers and their "
+        "actual text where relevant."
+    )
+
     message = client.messages.create(
         model=model,
-        max_tokens=4000,
-        messages=[{"role": "user", "content": prompt}],
+        max_tokens=8000,
+        tools=[{"type": "web_search_20250305", "name": "web_search"}],
+        messages=[{"role": "user", "content": enhanced_prompt}],
     )
-    return message.content[0].text
+
+    text_parts = []
+    for block in message.content:
+        if block.type == "text":
+            text_parts.append(block.text)
+    return "\n".join(text_parts)
 
 
 def generate_report(result: dict) -> dict:

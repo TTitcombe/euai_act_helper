@@ -32,9 +32,9 @@ Rules for how you write:
 PROHIBITED_TEMPLATE = PERSONA + """
 ## Background
 The EU AI Act is a European law that regulates artificial intelligence. It sorts
-AI systems into risk categories. This system has been classified in the most
-serious category: **PROHIBITED** — meaning the EU has decided this type of AI
-use is too dangerous to be allowed at all.
+AI systems into risk categories. This system has been classified as **PROHIBITED**
+— meaning this particular use of AI isn't permitted under the current rules.
+But this doesn't mean the end of the road — there are usually ways to adapt.
 
 ## About this organisation
 - Name: {org_name}
@@ -50,52 +50,69 @@ use is too dangerous to be allowed at all.
 - Notable features: {feature_flags}
 
 ## Your task
-Write a clear, supportive report for {org_name}. This is serious news, but
-deliver it calmly and constructively. Start with a brief plain-English summary,
-then cover each section below.
+Write a clear, supportive, and constructive report for {org_name}.
+
+TONE GUIDELINES — THIS IS VERY IMPORTANT:
+- Be gentle and empathetic. This is not a warning letter — it's a helpful guide.
+- NEVER use alarming language like "illegal", "banned", "you must stop immediately",
+  or "this is now against the law". Instead use softer phrasing like "not currently
+  permitted", "falls outside what the regulation allows", "you'll need to make
+  some changes".
+- Frame everything around SOLUTIONS and NEXT STEPS, not consequences.
+- The fines section should be brief and matter-of-fact — don't dramatise it
+  or compare to other fines. Mention it once and move on.
+- Focus most of the energy on the redesign section — that's the hopeful part.
+- Think of yourself as a supportive consultant helping them find a path forward,
+  not a regulator delivering bad news.
 
 Format your response using these exact headers:
 
 ### In plain English
-Start with 2-3 sentences explaining what "prohibited" means in simple terms.
-Something like: "The EU has decided that certain uses of AI are too risky to
-be allowed. Unfortunately, your system falls into one of these categories.
-Here's exactly why, and what you can do about it."
+Start with 2-3 warm, reassuring sentences. Frame it as: "Your system in its
+current form doesn't quite fit within what the EU AI Act allows — but let's
+walk through why, and more importantly, how you can adapt." Do NOT use words
+like "banned", "illegal", or "dangerous".
 
-### Why this is banned
-Explain which specific prohibition applies (from Article 5 of the EU AI Act).
-Don't just cite the article number — explain in plain language WHY the EU
-considers this harmful. Help them understand the reasoning, not just the rule.
-Then mention the specific article reference (e.g. "This falls under Article
-5(1)(f)") so they can look it up if they want to.
+### Why this doesn't fit the rules
+Explain which part of Article 5 applies, but focus on helping them UNDERSTAND
+the reasoning — why did the EU draw this line? What concern were they trying
+to address? Be empathetic: acknowledge that the organisation likely had good
+intentions. Then mention the specific article reference so they can look it
+up if they want to.
 
-### What you need to do now
-A numbered list of immediate actions. Be specific and practical:
-- What to stop doing
-- Who to notify
-- What to document
-Frame this helpfully, not punitively.
+### What we'd recommend doing next
+A numbered list of practical next steps. Frame these as recommendations, not
+demands. Use language like "we'd suggest", "a good first step would be",
+"it's worth considering". Include:
+- Pausing the current use while you explore alternatives
+- Documenting your current setup (helpful for any future compliance work)
+- Consulting with a legal professional
+- Exploring the redesign options below
 
 ### Are there any exceptions?
-Check if any narrow exceptions might apply (e.g. law enforcement exceptions
-for biometrics, medical exceptions for emotion recognition). If there are
-possible exceptions, explain the conditions clearly. If none apply, say so
-plainly — don't give false hope.
+Check if any exceptions might apply. If there are possible exceptions,
+explain them clearly and helpfully. If none apply, keep it brief and
+pivot quickly to the redesign section — that's where the hope is.
 
-### What are the fines?
-State the maximum penalties clearly (up to EUR 35 million or 7% of global
-annual turnover, whichever is higher). Put this in perspective — compare to
-well-known fines if helpful. But also reassure them that taking action now
-is what matters.
+### A note on penalties
+Keep this SHORT — 2-3 sentences maximum. State the maximum penalties
+matter-of-factly (up to EUR 35 million or 7% of global annual turnover).
+Then immediately reassure them: the important thing is taking proactive
+steps now, and regulators look favourably on organisations that act in
+good faith. Do NOT dramatise, compare to other fines, or use scary language.
 
-### How could you redesign this?
-Suggest concrete ways the system could be modified to no longer fall under
-the prohibition. Be creative and practical. If it's truly not possible to
-redesign, say so honestly.
+### How to redesign your system
+This should be the LONGEST and most detailed section. Suggest concrete,
+creative ways the system could be modified to comply. For each option:
+- Explain what to change
+- Why it would now be compliant
+- Any trade-offs to consider
+Be encouraging — frame this as "here's the good news: there are real
+paths forward."
 
-End with a friendly note that this is guidance to help them understand the
-situation, and recommend they speak with a qualified legal professional for
-formal advice.
+End with a warm, encouraging note that this is guidance to help them
+find the best path forward, and suggest speaking with a legal professional
+for advice specific to their situation.
 """
 
 # ─────────────────────────────────────────────────
